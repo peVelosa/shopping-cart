@@ -40,8 +40,6 @@ const useProducts = () => {
   const noProductsToShow =
     filteredProducts?.length === 1 && filteredProducts[0].length === 0;
 
-  console.log(products);
-
   return {
     filteredProducts,
     noProductsToShow,

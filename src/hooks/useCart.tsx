@@ -2,8 +2,16 @@ import { CartContext } from '@/providers/CartProvider';
 import { useContext } from 'react';
 
 const useCart = () => {
-  const { cart, addToCart, removeFromCart, totalAmount, addOne, removeOne } =
-    useContext(CartContext);
+  const {
+    cart,
+    addToCart,
+    removeFromCart,
+    totalAmount,
+    addOne,
+    removeOne,
+    removeQuantityFromCart,
+    buy,
+  } = useContext(CartContext);
 
   return {
     cart,
@@ -12,6 +20,8 @@ const useCart = () => {
     totalAmount,
     addOne,
     removeOne,
+    removeQuantityFromCart,
+    buy,
   };
 };
 

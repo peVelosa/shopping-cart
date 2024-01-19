@@ -11,6 +11,8 @@ import { useQuery } from '@tanstack/react-query';
 import { redirect, useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import AddToCart from '@/components/main/AddToCart';
+import Slider from '@/components/main/Image-Selector/Slider';
+import Link from 'next/link';
 
 type ClientProductPageProps = {
   pid: string;
@@ -53,7 +55,9 @@ const ClientProductPage = ({ pid, initialData }: ClientProductPageProps) => {
           </div>
           <Separator className='my-2' />
           <div className='flex flex-col gap-4'>
-            <div className='block md:hidden'>SLIDER</div>
+            <div className='mt-4 block md:hidden'>
+              <ImageSelector images={images} />
+            </div>
             <h2 className='order-1 text-lg font-semibold'>
               {numberFormater(price)}
             </h2>
@@ -74,6 +78,15 @@ const ClientProductPage = ({ pid, initialData }: ClientProductPageProps) => {
           </div>
         </div>
       </div>
+      <h3 className='mt-8'>
+        See other producst on:{' '}
+        <Button
+          variant={'secondary'}
+          asChild
+        >
+          <Link href={`/?category=${category}`}>{category}</Link>
+        </Button>
+      </h3>
     </>
   );
 };

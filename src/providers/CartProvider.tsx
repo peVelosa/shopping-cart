@@ -1,4 +1,5 @@
 import { createContext, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 type cartProviderProps = {
   children: React.ReactNode;
@@ -19,6 +20,14 @@ type TCartContext = {
   removeFromCart: ({ pid }: { pid: string }) => void;
   addOne: ({ pid }: { pid: string }) => void;
   removeOne: ({ pid }: { pid: string }) => void;
+  removeQuantityFromCart: ({
+    pid,
+    quantity,
+  }: {
+    pid: string;
+    quantity: number;
+  }) => void;
+  buy: (action: () => void) => void;
   totalAmount: number;
 };
 
@@ -26,6 +35,7 @@ export const CartContext = createContext({} as TCartContext);
 
 const CartProvider = ({ children }: cartProviderProps) => {
   const [cart, setCart] = useState<TCart[]>([]);
+  const router = useRouter();
 
   const addToCart = (product: TCart): void => {
     setCart((old) => {
@@ -85,6 +95,36 @@ const CartProvider = ({ children }: cartProviderProps) => {
     setCart((old) => old.filter((p) => p.id !== pid));
   };
 
+  const removeQuantityFromCart = ({
+    pid,
+    quantity,
+  }: {
+    pid: string;
+    quantity: number;
+  }): void => {
+    setCart((old) => {
+      const product = old.find((p) => p.id === pid);
+      if (!product) return [...old];
+
+      const restQuantity = product.quantity - quantity;
+
+      if (restQuantity <= 0) return old.filter((p) => p.id !== pid);
+
+      return old.map((p) => {
+        if (p.id === pid) {
+          return { ...p, quantity: restQuantity };
+        }
+        return p;
+      });
+    });
+  };
+
+  const buy = (action: () => void): void => {
+    setCart([]);
+    action();
+    router.push('/');
+  };
+
   const totalAmount: number = cart.reduce(
     (acc, curr) => acc + curr.price * curr.quantity,
     0,
@@ -99,6 +139,8 @@ const CartProvider = ({ children }: cartProviderProps) => {
         totalAmount,
         addOne,
         removeOne,
+        removeQuantityFromCart,
+        buy,
       }}
     >
       {children}

@@ -9,13 +9,14 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import useCart from '@/hooks/useCart';
 import CartItem from './CartItem';
 import { Separator } from '@/components/ui/separator';
-import { numberFormater } from '@/lib/utils';
+import Buy from './Buy';
 
 const CartDrawer = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { cart, totalAmount } = useCart();
 
   const handleOpen = () => setIsOpen(true);
+  const handleClose = () => setIsOpen(false);
 
   return (
     <>
@@ -40,17 +41,14 @@ const CartDrawer = () => {
                 cart?.map((item) => (
                   <CartItem
                     {...item}
+                    handleClose={handleClose}
                     key={item.id}
                   />
                 ))
               )}
             </ScrollArea>
             <Separator />
-            <p>
-              <span className='font-semibold'>Total amount:</span>{' '}
-              {numberFormater(totalAmount)}
-            </p>
-            <Button>Buy</Button>
+            <Buy handleClose={handleClose} />
           </div>
         </SheetContent>
       </Sheet>

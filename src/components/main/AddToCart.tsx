@@ -8,6 +8,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
 import { useState, type FC } from 'react';
 import useCart from '@/hooks/useCart';
@@ -27,9 +28,20 @@ const AddToCart: FC<AddToCartProps> = ({
   title,
   max,
 }) => {
-  const { addToCart } = useCart();
+  const { addToCart, removeQuantityFromCart } = useCart();
 
   const [quantity, setQuantity] = useState<number>(1);
+
+  function handleAddToCart() {
+    addToCart({ id, thumbnail, quantity, price, title, stock: max });
+    toast(`${title} added to cart!`, {
+      description: `Quantity: ${quantity}`,
+      action: {
+        label: 'Remove',
+        onClick: () => removeQuantityFromCart({ pid: id, quantity: quantity }),
+      },
+    });
+  }
 
   return (
     <>
@@ -56,9 +68,7 @@ const AddToCart: FC<AddToCartProps> = ({
       </div>
       <Button
         className='mt-4'
-        onClick={() =>
-          addToCart({ id, thumbnail, quantity, price, title, stock: max })
-        }
+        onClick={handleAddToCart}
       >
         Add to Cart
       </Button>

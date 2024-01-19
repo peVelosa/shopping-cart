@@ -1,14 +1,14 @@
 import { Button } from '@/components/ui/button';
 
 import Link from 'next/link';
-import Sidebar from './Drawer/Sidebar/Sidebar';
+import Sidebar from '@/components/main/Drawer/Sidebar/Sidebar';
 import SearchBar from './SearchBar';
-import Cart from './Drawer/Cart/Cart';
+import Cart from '@/components/main/Drawer/Cart/Cart';
 
 const Navbar = () => {
   return (
-    <header className='bg-sky-400 p-2'>
-      <nav className='mx-auto flex max-w-screen-2xl flex-wrap items-center justify-between gap-2 p-2'>
+    <header className='sticky top-0 z-50 bg-sky-400 p-2'>
+      <nav className='mx-auto flex max-w-screen-2xl flex-wrap items-center justify-between gap-y-2 p-2 sm:gap-x-2 '>
         <div>
           <Sidebar />
         </div>

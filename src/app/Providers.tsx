@@ -22,7 +22,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
       <QueryClientProvider client={queryClient}>
         <CartProvider>
           {children}
-          <ReactQueryDevtools />
+          {/* <ReactQueryDevtools /> */}
         </CartProvider>
       </QueryClientProvider>
     </>

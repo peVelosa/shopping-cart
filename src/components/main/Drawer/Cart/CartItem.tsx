@@ -9,7 +9,9 @@ import type { FC } from 'react';
 import useCart from '@/hooks/useCart';
 import Link from 'next/link';
 
-type CartItemProps = TCart;
+type CartItemProps = TCart & {
+  handleClose: () => void;
+};
 
 const CartItem: FC<CartItemProps> = ({
   id,
@@ -17,14 +19,18 @@ const CartItem: FC<CartItemProps> = ({
   title,
   quantity,
   price,
+  handleClose,
 }) => {
   const { addOne, removeOne, removeFromCart } = useCart();
 
   return (
     <Card className='mb-4 mr-4 rounded-sm p-2'>
-      <CardContent className='relative grid grid-cols-[1fr_2fr_auto] gap-4 p-0'>
-        <div>
-          <Link href={`/product/${id}`}>
+      <CardContent className='relative grid gap-4 p-0 md:grid-cols-[1fr_2fr_auto]'>
+        <div className='hidden h-full w-full md:block'>
+          <Link
+            href={`/product/${id}`}
+            onClick={handleClose}
+          >
             <Image
               alt={`${title} thumbnail`}
               src={thumbnail}
@@ -35,8 +41,14 @@ const CartItem: FC<CartItemProps> = ({
           </Link>
         </div>
         <div>
-          <p className='font-bold'>{title}</p>
-          <div className='mt-4 flex w-32 items-center justify-between gap-4'>
+          <Link
+            href={`/product/${id}`}
+            className='hover:underline'
+            onClick={handleClose}
+          >
+            <p className='font-bold'>{title}</p>
+          </Link>
+          <div className='mx-auto mt-4 flex max-w-32 items-center justify-between gap-4'>
             <Button
               className='h-8 w-8 p-2 hover:bg-green-300'
               variant={'outline'}
@@ -57,7 +69,7 @@ const CartItem: FC<CartItemProps> = ({
         </div>
         <Button
           variant={'destructive'}
-          className='h-8 w-8 rounded-full p-2'
+          className='p-2 md:h-8 md:w-8 md:rounded-full'
           onClick={() => removeFromCart({ pid: id })}
         >
           <Trash />
