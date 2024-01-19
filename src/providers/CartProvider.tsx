@@ -85,7 +85,10 @@ const CartProvider = ({ children }: cartProviderProps) => {
     setCart((old) => old.filter((p) => p.id !== pid));
   };
 
-  const totalAmount: number = cart.reduce((acc, curr) => acc + curr.price, 0);
+  const totalAmount: number = cart.reduce(
+    (acc, curr) => acc + curr.price * curr.quantity,
+    0,
+  );
 
   return (
     <CartContext.Provider

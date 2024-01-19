@@ -8,13 +8,14 @@ import { Sheet, SheetTrigger, SheetContent } from '@/components/ui/sheet';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import useCart from '@/hooks/useCart';
 import CartItem from './CartItem';
+import { Separator } from '@/components/ui/separator';
+import { numberFormater } from '@/lib/utils';
 
-const Sidebar = () => {
+const CartDrawer = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { cart } = useCart();
+  const { cart, totalAmount } = useCart();
 
   const handleOpen = () => setIsOpen(true);
-  const handleClose = () => setIsOpen(false);
 
   return (
     <>
@@ -31,7 +32,7 @@ const Sidebar = () => {
           </Button>
         </SheetTrigger>
         <SheetContent side={'right'}>
-          <div className='mt-4 grid h-full grid-rows-[1fr_auto] gap-2'>
+          <div className='mt-4 grid h-full grid-rows-[1fr_auto_auto] gap-2 pb-4'>
             <ScrollArea>
               {cart.length === 0 ? (
                 <p>Your cart is empty...</p>
@@ -44,7 +45,12 @@ const Sidebar = () => {
                 ))
               )}
             </ScrollArea>
-            <div>buy</div>
+            <Separator />
+            <p>
+              <span className='font-semibold'>Total amount:</span>{' '}
+              {numberFormater(totalAmount)}
+            </p>
+            <Button>Buy</Button>
           </div>
         </SheetContent>
       </Sheet>
@@ -52,4 +58,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default CartDrawer;
