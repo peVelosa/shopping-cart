@@ -19,7 +19,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className={`${inter.className} grid min-h-svh`}>
+      <body
+        className={`${inter.className} grid min-h-svh grid-rows-[auto_1fr_auto]`}
+      >
         <Providers>
           <Navbar />
           <main className='container mx-auto py-5 sm:py-10 md:py-20'>
